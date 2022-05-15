@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { validate } from "./validation";
+import { validate } from "../Assets/validation";
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { faEnvelope, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookF, faGooglePlusG } from "@fortawesome/free-brands-svg-icons";
+import { notify } from "../Assets/toast";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [data, setData] = useState({
@@ -20,7 +25,7 @@ const Register = () => {
   const [focus, setFocus] = useState({});
 
   useEffect(() => {
-    setErrors(validate(data));
+    setErrors(validate(data,'Register'));
   }, [data]);
 
   const changeHandler = (event) => {
@@ -39,9 +44,9 @@ const Register = () => {
   const submitHandler =(event)=>{
     event.preventDefault()
     if(!Object.keys(errors).length){
-        console.log(data);
+        notify("You Are Singed up","success")
     }else{
-
+        notify("Data Is invalid","error")
         setFocus({
             name:true,
             email:true,
@@ -69,13 +74,16 @@ const Register = () => {
 
         <form onSubmit={submitHandler} className=" p-10 rounded-lg  min-w-full">
           <h1 className="text-center text-1xl mb-6 text-white">
-            Please Register to acces all our features.
+            Please Register to access all our features.
           </h1>
           <div>
             <div className="relative">
               <FontAwesomeIcon icon={faUser} className="absolute mt-3 ml-4" />
               <input
-                className="w-full bg-input  pl-10 py-2 rounded-lg focus:outline-none "
+                // className="w-full bg-input  pl-10 py-2 rounded-lg border-none focus:border-solid focus:border-2 focus:border-red-600 "
+                className={errors.name && focus.name
+                    ?"w-full bg-input  pl-10 py-2 rounded-lg  border-solid border-2 border-red-600" 
+                    :"w-full bg-input  pl-10 py-2 rounded-lg border-none  "}
                 type="text"
                 name="name"
                 placeholder="Name"
@@ -93,7 +101,10 @@ const Register = () => {
                 className="absolute mt-6 ml-4"
               />
               <input
-                className="w-full bg-input  pl-10 py-2 mt-3 rounded-lg focus:outline-none "
+                className={errors.email && focus.email
+                    ?"w-full bg-input  pl-10 py-2 mt-3 rounded-lg border-solid border-2 border-red-600 "
+                    :"w-full bg-input  pl-10 py-2 mt-3 rounded-lg focus:outline-none "
+                }
                 type="text"
                 name="email"
                 placeholder="Email"
@@ -108,7 +119,9 @@ const Register = () => {
             <div className="relative">
               <FontAwesomeIcon icon={faLock} className="absolute mt-6 ml-4 " />
               <input
-                className="w-full bg-input pl-10 py-2 mt-3 rounded-lg focus:outline-none"
+                className={errors.password && focus.password
+                    ?"w-full bg-input pl-10 py-2 mt-3 rounded-lg border-solid border-2 border-red-600"
+                    :"w-full bg-input pl-10 py-2 mt-3 rounded-lg focus:outline-none"}
                 type="password"
                 name="password"
                 placeholder="Password"
@@ -122,7 +135,9 @@ const Register = () => {
             <div className="relative">
               <FontAwesomeIcon icon={faLock} className="absolute mt-6 ml-4 " />
               <input
-                className="w-full bg-input pl-10 py-2 mt-3 rounded-lg focus:outline-none"
+                className={errors.confirmPassword && focus.confirmPassword
+                    ?"w-full bg-input pl-10 py-2 mt-3 rounded-lg border-solid border-2 border-red-600"
+                    :"w-full bg-input pl-10 py-2 mt-3 rounded-lg focus:outline-none"}
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm Password"
@@ -190,14 +205,15 @@ const Register = () => {
           </div>
         </div>
         <div className="flex justify-center py-5 ">
-          <a href="#" className=" w-38 h-10 px-4 mr-1  text-white ">
-            Login{" "}
-          </a>
-          <a href="#" className="w-38 h-10 px-4 ml-1  text-white ">
+          <Link to="/login" className=" w-38 h-10 px-4 mr-1  text-white ">
+            Login
+          </Link>
+          <Link to="/forget" className="w-38 h-10 px-4 ml-1  text-white ">
             Forgot Password?
-          </a>
+          </Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -1,11 +1,19 @@
-// import Login from "./Components/Login";
-import Register from "./Components/Register";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Login from "./Components/Pages/Login";
+import Register from "./Components/Pages/Register";
+import Forget from "./Components/Pages/Forget";
 
 function App() {
   return (
     <div className="App">
-      <Register />
-      {/* <Login /> */}
+      
+        <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register"element={<Register />} />
+              <Route path="/forget"element={<Forget />} />
+              <Route path="/" element={<Navigate to="/register" />} />
+        </Routes>
+
     </div>
   );
 }
