@@ -58,7 +58,7 @@ const Forget = () => {
           </div>
 
           <div className="bg-top-blue w-full h-24 flex  justify-center pt-6   ">
-            <h1 className="pt-4 font-normal text-3xl text-white">
+            <h1 className="pt-4 font-normal text-1xl text-white md:text-2xl">
               Flat User Recovery Password
             </h1>
           </div>
